@@ -1,7 +1,13 @@
 import express from "express";
+import userRouter from "./routes/user.mjs";
+import createDbConnection from "./db.mjs";
+
+// CONNECT TO THE DATABASE
+createDbConnection();
 
 const app = express();
 app.use(express.json());
+app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
   console.log(`Hello from the frontend`);

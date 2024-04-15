@@ -1,30 +1,13 @@
 import express from "express";
+import {
+  createUserController,
+  getUsersController,
+} from "../controllers/user.mjs";
 
 const router = express.Router();
 
-const users = [
-  {
-    name: "Person1",
-    age: 23,
-  },
-  {
-    name: "Person2",
-    age: 20,
-  },
-  {
-    name: "Person3",
-    age: 25,
-  },
-];
+router.get("/", getUsersController);
 
-router.get("/", (req, res) => {
-  res.json(users);
-});
-
-router.post("/", (req, res) => {
-  const { body } = req;
-  console.log(body);
-  res.end("User created");
-});
+router.post("/", createUserController);
 
 export default router;

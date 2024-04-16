@@ -1,4 +1,5 @@
 import User from "../models/user.mjs";
+import { validationResult, matchedData } from "express-validator";
 
 const getUsersController = async (req, res) => {
   try {
@@ -16,10 +17,13 @@ const getUsersController = async (req, res) => {
 
 const createUserController = async (req, res) => {
   const { body } = req;
+
+  const result = validationResult(req);
+  if (!result.isEmpty())
+    return res.status(400).json({ error: result.errors[0].msg });
   try {
-    if (!body.firstname || !body.lastname || !body.email || !body.password)
-      throw new Error("all fields are required");
-    const newUser = new User(body);
+    const data = matchedData(req);
+    const newUser = new User(data);
     await newUser.save();
     return res.status(201).json(newUser);
   } catch (error) {

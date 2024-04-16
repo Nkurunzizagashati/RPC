@@ -31,4 +31,20 @@ const createUserController = async (req, res) => {
   }
 };
 
-export { getUsersController, createUserController };
+const loginUserController = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty())
+    return res.status(401).json({ error: result.errors[0].msg });
+
+  try {
+    const data = matchedData(req);
+    const user = await User.findOne({ email: data.email });
+    if (user && user.password === data.password)
+      return res.json({ msg: "User Logged in Successfully!" });
+    throw new Error("Invalid credentials");
+  } catch (error) {
+    res.status(401).json({ error: error.message });
+  }
+};
+
+export { getUsersController, createUserController, loginUserController };

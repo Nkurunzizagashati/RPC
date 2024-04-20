@@ -1,4 +1,4 @@
-# FEATURES THAT RP SHOULD HAVE
+# FEATURES THAT RPC SHOULD HAVE
 
 `User Authentication:` Allow users to sign up, log in, and manage their accounts securely <br>.
 `User Profiles:` Enable users to create profiles where they can showcase their<br> skills, add a bio, and track their learning progress.<br>

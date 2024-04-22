@@ -13,7 +13,7 @@ import {
 
 const router = express.Router();
 
-router.get("/", body("username"), getUsersController);
+router.get("/", getUsersController);
 
 router.post("/", checkSchema(createUserValidator), createUserController);
 router.post("/login", checkSchema(loginUserValidator), loginUserController);

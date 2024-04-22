@@ -1,16 +1,19 @@
 import express from "express";
 import userRouter from "./routes/user.mjs";
 import createDbConnection from "./db.mjs";
+import cookieParser from "cookie-parser";
 
 // CONNECT TO THE DATABASE
 createDbConnection();
 
 const app = express();
 app.use(express.json());
+app.use(cookieParser());
+
+// ROUTES REGISTRATION
 app.use("/users", userRouter);
 
 app.get("/", (req, res) => {
-  console.log(`Hello from the frontend`);
   res.status(200).end("Hello from the server");
 });
 

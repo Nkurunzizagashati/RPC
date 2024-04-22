@@ -3,22 +3,38 @@ import userRouter from "./routes/user.mjs";
 import createDbConnection from "./db.mjs";
 import cookieParser from "cookie-parser";
 import session from "express-session";
+import MongoDBStoreFactory from "connect-mongodb-session";
+
+import dotenv from "dotenv";
+
+dotenv.config();
 
 // CONNECT TO THE DATABASE
 createDbConnection();
+
+const MongoDBStore = MongoDBStoreFactory(session);
+const store = new MongoDBStore({
+  uri: process.env.MONGODB_URI,
+  collection: "rpc-sessions",
+});
+
+store.on("error", (err) => {
+  console.log("Can't connect to MongoDBStore");
+});
 
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
 app.use(
   session({
-    secret: "Session secret sentence",
+    secret: "Session secret key",
     saveUninitialized: false,
     resave: false,
     cookie: {
       maxAge: 60000 * 60,
       httpOnly: true,
     },
+    store: store,
   })
 );
 

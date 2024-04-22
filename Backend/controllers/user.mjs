@@ -37,6 +37,7 @@ const createUserController = async (req, res) => {
     // CREATING NEW USER
     const newUser = new User(data);
     await newUser.save();
+    req.session.user = newUser.email;
     res.cookie("isAuth", true, { maxAge: 60000 * 60 });
     return res.status(201).json(newUser);
   } catch (error) {
@@ -53,6 +54,7 @@ const loginUserController = async (req, res) => {
     const data = matchedData(req);
     const user = await User.findOne({ email: data.email });
     if (user && user.password === data.password) {
+      req.session.user = user.email;
       res.cookie("isAuth", true, { maxAge: 60000 * 60 });
       return res.json({ msg: "User Logged in Successfully!" });
     }

@@ -2,6 +2,7 @@ import express from "express";
 import userRouter from "./routes/user.mjs";
 import createDbConnection from "./db.mjs";
 import cookieParser from "cookie-parser";
+import session from "express-session";
 
 // CONNECT TO THE DATABASE
 createDbConnection();
@@ -9,6 +10,17 @@ createDbConnection();
 const app = express();
 app.use(express.json());
 app.use(cookieParser());
+app.use(
+  session({
+    secret: "Session secret sentence",
+    saveUninitialized: false,
+    resave: false,
+    cookie: {
+      maxAge: 60000 * 60,
+      httpOnly: true,
+    },
+  })
+);
 
 // ROUTES REGISTRATION
 app.use("/users", userRouter);

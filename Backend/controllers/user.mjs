@@ -1,5 +1,6 @@
 import User from "../models/user.mjs";
 import { validationResult, matchedData } from "express-validator";
+import bcrypt from "bcrypt";
 
 const getUsersController = async (req, res) => {
   console.log(req.cookies);
@@ -26,6 +27,14 @@ const createUserController = async (req, res) => {
     return res.status(400).json({ err: result.errors[0].msg });
   try {
     const data = matchedData(req);
+    console.log(data);
+    // HASHING THE PASSWORD
+    const unhashedPassword = req.body.password;
+    const salt = await bcrypt.genSalt();
+    const hash = await bcrypt.hash(unhashedPassword, salt);
+    data.password = hash;
+
+    // CREATING NEW USER
     const newUser = new User(data);
     await newUser.save();
     res.cookie("isAuth", true, { maxAge: 60000 * 60 });

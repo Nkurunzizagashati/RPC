@@ -26,16 +26,4 @@ const userShema = new mongoose.Schema(
 
 const User = mongoose.model("User", userShema);
 
-userShema.pre("save", async function (next) {
-  console.log("Hashing password");
-  try {
-    const salt = await bcrypt.genSalt();
-    console.log(salt);
-    this.password = await bcrypt.hash(this.password, salt);
-    next();
-  } catch (error) {
-    next(error); // Pass any errors to the next middleware
-  }
-});
-
 export default User;

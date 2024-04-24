@@ -76,4 +76,24 @@ const loginUserController = async (req, res) => {
   }
 };
 
-export { getUsersController, createUserController, loginUserController };
+const deleteUserController = async (req, res) => {
+  const result = validationResult(req);
+  if (!result.isEmpty)
+    return res.status(401).json({ error: result.errors[0].msg });
+  try {
+    const data = matchedData(req);
+    const id = data.id;
+    const deletedUser = await User.findByIdAndDelete(id);
+    if (deletedUser) return res.send(`${deletedUser.email} deleted`);
+    throw new Error("Can't find this user");
+  } catch (error) {
+    return res.json({ err: error.msg });
+  }
+};
+
+export {
+  getUsersController,
+  createUserController,
+  loginUserController,
+  deleteUserController,
+};

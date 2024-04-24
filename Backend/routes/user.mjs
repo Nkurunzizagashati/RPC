@@ -3,6 +3,7 @@ import {
   createUserController,
   getUsersController,
   loginUserController,
+  deleteUserController,
 } from "../controllers/user.mjs";
 
 import { body, validationResult, check, checkSchema } from "express-validator";

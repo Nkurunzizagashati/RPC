@@ -5,7 +5,7 @@ import tokenGenerator from "../utils/tokenGenerator.mjs";
 
 const getUsersController = async (req, res) => {
   console.log(req.cookies);
-  if (!req.cookies.isAuth)
+  if (!req.cookies.token)
     return res.status(401).json({ err: "You are not loged in" });
   try {
     const users = await User.find();
@@ -39,10 +39,10 @@ const createUserController = async (req, res) => {
     const newUser = new User(data);
     await newUser.save();
     req.session.user = newUser.email;
-    res.cookie("isAuth", true, { maxAge: 60000 * 60 });
     // CREATING AND SENDING A JWT_TOKEN
     const token = tokenGenerator(newUser);
-    return res.status(201).json({ token, createdUser: newUser });
+    res.cookie("token", token, { maxAge: 60000 * 60, httpOnly: true });
+    return res.status(201).json({ createdUser: newUser });
   } catch (error) {
     res.status(400).json({ err: error.message });
   }
@@ -56,9 +56,11 @@ const loginUserController = async (req, res) => {
   try {
     const data = matchedData(req);
     const user = await User.findOne({ email: data.email });
-    if (user && user.password === data.password) {
+    if (user && bcrypt.compare(user.password, data.password)) {
       req.session.user = user.email;
-      res.cookie("isAuth", true, { maxAge: 60000 * 60 });
+      // CREATING THE TOKEN and SENDING IT IN AN HTTPONLY COOKIE
+      const token = tokenGenerator(user);
+      res.cookie("token", token, { maxAge: 60000 * 60, httpOnly: true });
       return res.json({ msg: "User Logged in Successfully!" });
     }
     throw new Error("Invalid credentials");

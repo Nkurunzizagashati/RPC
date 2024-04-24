@@ -8,7 +8,7 @@ const getUsersController = async (req, res) => {
   if (!req.cookies.token)
     return res.status(401).json({ err: "You are not loged in" });
   try {
-    const users = await User.find();
+    const users = await User.find().select("-password");
     if (users) {
       res.json(users);
       console.log(users);
@@ -42,7 +42,14 @@ const createUserController = async (req, res) => {
     // CREATING AND SENDING A JWT_TOKEN
     const token = tokenGenerator(newUser);
     res.cookie("token", token, { maxAge: 60000 * 60, httpOnly: true });
-    return res.status(201).json({ createdUser: newUser });
+    return res.status(201).json({
+      createdUser: {
+        id: newUser.id,
+        firstname: newUser.firstname,
+        lastname: newUser.lastname,
+        email: newUser.email,
+      },
+    });
   } catch (error) {
     res.status(400).json({ err: error.message });
   }

@@ -1,6 +1,7 @@
 import User from "../models/user.mjs";
 import { validationResult, matchedData } from "express-validator";
 import bcrypt from "bcrypt";
+import tokenGenerator from "../utils/tokenGenerator.mjs";
 
 const getUsersController = async (req, res) => {
   console.log(req.cookies);
@@ -39,7 +40,9 @@ const createUserController = async (req, res) => {
     await newUser.save();
     req.session.user = newUser.email;
     res.cookie("isAuth", true, { maxAge: 60000 * 60 });
-    return res.status(201).json(newUser);
+    // CREATING AND SENDING A JWT_TOKEN
+    const token = tokenGenerator(newUser);
+    return res.status(201).json({ token, createdUser: newUser });
   } catch (error) {
     res.status(400).json({ err: error.message });
   }

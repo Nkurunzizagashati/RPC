@@ -2,6 +2,7 @@ import User from "../models/user.mjs";
 import { validationResult, matchedData } from "express-validator";
 import bcrypt from "bcrypt";
 import tokenGenerator from "../utils/tokenGenerator.mjs";
+import jwt from "jsonwebtoken";
 
 const getUsersController = async (req, res) => {
   console.log(req.cookies);
@@ -86,16 +87,48 @@ const loginUserController = async (req, res) => {
 
 const deleteUserController = async (req, res) => {
   const result = validationResult(req);
-  if (!result.isEmpty)
+  const jwt_secret = process.env.JWT_SECRET;
+  if (!result.isEmpty()) {
     return res.status(401).json({ error: result.errors[0].msg });
+  }
   try {
     const data = matchedData(req);
-    const id = data.id;
-    const deletedUser = await User.findByIdAndDelete(id);
-    if (deletedUser) return res.send(`${deletedUser.email} deleted`);
-    throw new Error("Can't find this user");
+    const id = data.userId;
+    console.log(`DELETING USER: ${id}`);
+
+    // Ensure token exists and is valid
+    const token = req.cookies.token;
+    console.log(token);
+    if (!token) {
+      return res.status(401).json({ error: "You are not logged in" });
+    }
+
+    const decodedToken = jwt.decode(token, jwt_secret);
+    console.log(decodedToken);
+    if (!decodedToken) {
+      return res.status(401).json({ error: "Invalid token" });
+    }
+
+    const user = await User.findById(decodedToken.id);
+    if (!user) {
+      return res.status(401).json({ error: "User not found" });
+    }
+
+    const isAdmin = user.isAdmin;
+    if (isAdmin || decodedToken.id === id) {
+      const deletedUser = await User.findByIdAndDelete(id);
+      if (deletedUser) {
+        return res.send(`${deletedUser.email} deleted`);
+      }
+      throw new Error("Can't find this user");
+    } else {
+      return res
+        .status(401)
+        .json({ error: "You have no permission to delete this user" });
+    }
   } catch (error) {
-    return res.json({ err: error.msg });
+    console.error(error);
+    return res.status(500).json({ error: "Internal server error" });
   }
 };
 

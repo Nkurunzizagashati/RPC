@@ -66,4 +66,16 @@ const loginUserValidator = {
   },
 };
 
-export { createUserValidator, loginUserValidator };
+const deleteUserValidator = {
+  userId: {
+    in: ["params"],
+    notEmpty: {
+      errorMessage: "You need to provide an id for the user you want to delete",
+    },
+    isString: {
+      errorMessage: "Id should be a string",
+    },
+  },
+};
+
+export { createUserValidator, loginUserValidator, deleteUserValidator };

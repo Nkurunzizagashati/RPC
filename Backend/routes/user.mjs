@@ -9,6 +9,7 @@ import {
 import { body, validationResult, check, checkSchema } from "express-validator";
 import {
   createUserValidator,
+  deleteUserValidator,
   loginUserValidator,
 } from "../middlewares/validationSchemas.mjs";
 
@@ -18,6 +19,10 @@ router.get("/", getUsersController);
 
 router.post("/", checkSchema(createUserValidator), createUserController);
 router.post("/login", checkSchema(loginUserValidator), loginUserController);
-router.delete("/users", checkSchema(deleteUserValidator), deleteUserController);
+router.delete(
+  "/:userId",
+  checkSchema(deleteUserValidator),
+  deleteUserController
+);
 
 export default router;

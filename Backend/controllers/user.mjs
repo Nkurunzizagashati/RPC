@@ -71,7 +71,11 @@ const loginUserController = async (req, res) => {
       req.session.user = user.email;
       // CREATING THE TOKEN and SENDING IT IN AN HTTPONLY COOKIE
       const token = tokenGenerator(user);
-      res.cookie("token", token, { maxAge: 60000 * 60, httpOnly: true });
+      res.cookie("token", token, {
+        maxAge: 60000 * 60,
+        httpOnly: true,
+        secure: process.env.NODE_ENVIRONMENT == "production",
+      });
       return res.json({ msg: "User Logged in Successfully!" });
     }
     throw new Error("Invalid credentials");

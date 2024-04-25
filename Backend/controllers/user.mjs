@@ -41,7 +41,11 @@ const createUserController = async (req, res) => {
     req.session.user = newUser.email;
     // CREATING AND SENDING A JWT_TOKEN
     const token = tokenGenerator(newUser);
-    res.cookie("token", token, { maxAge: 60000 * 60, httpOnly: true });
+    res.cookie("token", token, {
+      maxAge: 60000 * 60,
+      httpOnly: true,
+      secure: process.env.NODE_ENVIRONMENT == "production",
+    });
     return res.status(201).json({
       createdUser: {
         id: newUser.id,

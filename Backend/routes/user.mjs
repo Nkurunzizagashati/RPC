@@ -18,5 +18,6 @@ router.get("/", getUsersController);
 
 router.post("/", checkSchema(createUserValidator), createUserController);
 router.post("/login", checkSchema(loginUserValidator), loginUserController);
+router.delete("/users", checkSchema(deleteUserValidator), deleteUserController);
 
 export default router;

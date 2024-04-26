@@ -5,11 +5,15 @@ import tokenGenerator from "../utils/tokenGenerator.mjs";
 import jwt from "jsonwebtoken";
 
 const getUsersController = async (req, res) => {
-  console.log(req.cookies);
   if (!req.cookies.token)
     return res.status(401).json({ err: "You are not loged in" });
+  const jwt_secret = process.env.JWT_SECRET;
+  const loggedInUserId = jwt.decode(req.cookies.token, jwt_secret).id;
+  console.log(loggedInUserId);
   try {
-    const users = await User.find().select("-password");
+    const users = await User.find({ _id: { $ne: loggedInUserId } }).select(
+      "-password"
+    );
     if (users) {
       res.json(users);
       console.log(users);

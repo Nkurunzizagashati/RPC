@@ -38,6 +38,12 @@ const createUserValidator = {
       errorMessage: "password should have 6 to 10 characters",
     },
   },
+  isAdmin: {
+    optional: { options: { nullable: true } },
+    isBool: {
+      errorMessage: "Is admin should have a boolean value",
+    },
+  },
 };
 
 const loginUserValidator = {

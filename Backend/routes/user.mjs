@@ -5,6 +5,7 @@ import {
   loginUserController,
   deleteUserController,
   logoutUserController,
+  updateUserController,
 } from "../controllers/user.mjs";
 
 import { body, validationResult, check, checkSchema } from "express-validator";
@@ -12,6 +13,7 @@ import {
   createUserValidator,
   deleteUserValidator,
   loginUserValidator,
+  updateUserValidator,
 } from "../middlewares/validationSchemas.mjs";
 
 const router = express.Router();
@@ -26,5 +28,6 @@ router.delete(
   deleteUserController
 );
 router.get("/logout", logoutUserController);
+router.patch("/", checkSchema(updateUserValidator), updateUserController);
 
 export default router;

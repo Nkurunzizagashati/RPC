@@ -137,13 +137,32 @@ const deleteUserController = async (req, res) => {
 };
 
 const logoutUserController = (req, res) => {
-  // const jwt_secret = process.env.JWT_SECRET;
-  // const userId = jwt.decode(req.cookies.token, jwt_secret).id;
   try {
     Object.keys(req.cookies).forEach((cookieName) => {
       res.clearCookie(cookieName);
     });
     res.json({ msg: "logged out" });
+  } catch (error) {
+    res.json({ err: error.message });
+  }
+};
+
+const updateUserController = async (req, res) => {
+  const result = validationResult(req);
+  const jwt_secret = process.env.JWT_SECRET;
+  if (!result.isEmpty())
+    return res.status(401).json({ err: result.errors[0].msg });
+
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ err: "You are not logged in" });
+    const userId = jwt.decode(token, jwt_secret).id;
+    if (!userId) return res.status(401).json({ err: "You are not logged in " });
+    const data = matchedData(req);
+    const updatedUser = await User.findByIdAndUpdate(userId, data, {
+      new: true,
+    });
+    res.json({ msg: "User Updated successfully!", updatedUser });
   } catch (error) {
     res.json({ err: error.message });
   }
@@ -155,4 +174,5 @@ export {
   loginUserController,
   deleteUserController,
   logoutUserController,
+  updateUserController,
 };

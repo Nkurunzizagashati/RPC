@@ -4,6 +4,7 @@ import {
   getUsersController,
   loginUserController,
   deleteUserController,
+  logoutUserController,
 } from "../controllers/user.mjs";
 
 import { body, validationResult, check, checkSchema } from "express-validator";
@@ -24,5 +25,6 @@ router.delete(
   checkSchema(deleteUserValidator),
   deleteUserController
 );
+router.get("/logout", logoutUserController);
 
 export default router;

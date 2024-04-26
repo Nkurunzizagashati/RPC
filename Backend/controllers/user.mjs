@@ -136,9 +136,23 @@ const deleteUserController = async (req, res) => {
   }
 };
 
+const logoutUserController = (req, res) => {
+  // const jwt_secret = process.env.JWT_SECRET;
+  // const userId = jwt.decode(req.cookies.token, jwt_secret).id;
+  try {
+    Object.keys(req.cookies).forEach((cookieName) => {
+      res.clearCookie(cookieName);
+    });
+    res.json({ msg: "logged out" });
+  } catch (error) {
+    res.json({ err: error.message });
+  }
+};
+
 export {
   getUsersController,
   createUserController,
   loginUserController,
   deleteUserController,
+  logoutUserController,
 };

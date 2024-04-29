@@ -28,6 +28,11 @@ const courseSchema = new mongoose.Schema(
           type: String,
           required: true,
         },
+        contentType: {
+          type: String,
+          enum: ["turtorial", "video", "course", "article"],
+          required: true,
+        },
       },
     ],
   },

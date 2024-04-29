@@ -33,6 +33,17 @@ const courseSchema = new mongoose.Schema(
           enum: ["turtorial", "video", "course", "article"],
           required: true,
         },
+        additionContentLink: {
+          type: String,
+          required: function () {
+            return this.contentType != "course";
+          },
+        },
+        completed: {
+          type: Boolean,
+          required: true,
+          default: false,
+        },
       },
     ],
   },

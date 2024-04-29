@@ -4,6 +4,7 @@ import createDbConnection from "./db.mjs";
 import cookieParser from "cookie-parser";
 import session from "express-session";
 import MongoDBStoreFactory from "connect-mongodb-session";
+import courseRouter from "./routes/course.mjs";
 
 import dotenv from "dotenv";
 
@@ -40,6 +41,7 @@ app.use(
 
 // ROUTES REGISTRATION
 app.use("/users", userRouter);
+app.use("/courses", courseRouter);
 
 app.get("/", (req, res) => {
   res.status(200).end("Hello from the server");

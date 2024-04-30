@@ -1,7 +1,12 @@
 import express from "express";
 import { checkSchema } from "express-validator";
 import { createCourseValidator } from "../middlewares/coursesValidationSchemas.mjs";
-import { createCourseController } from "../controllers/course.mjs";
+import {
+  createCourseController,
+  deleteCourseController,
+  getAllCoursesController,
+  updateCourseController,
+} from "../controllers/course.mjs";
 
 const router = express.Router();
 

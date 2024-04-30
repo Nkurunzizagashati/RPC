@@ -24,7 +24,8 @@ const createCourseController = async (req, res) => {
       return res.status(401).json({ err: result.errors[0].msg });
 
     const data = matchedData(req);
-    const newCourse = await new Course(data);
+    const newCourse = new Course(data);
+    await newCourse.save();
     if (!newCourse) return res.json({ err: "Something went wrong" });
     res.status(201).json({ msg: "Course created successfully!", newCourse });
   } catch (error) {
@@ -43,6 +44,10 @@ const getAllCoursesController = async (req, res) => {
       return res.status(403).json({
         err: "User not recognized, you need to loggin or register to access the courses",
       });
+
+    const courses = await Course.find();
+    if (!courses) res.json({ msg: "No course found" });
+    res.json({ courses });
   } catch (error) {
     res.json({ err: error.message });
   }

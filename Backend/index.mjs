@@ -42,6 +42,9 @@ app.use(
 // ROUTES REGISTRATION
 app.use("/users", userRouter);
 app.use("/courses", courseRouter);
+app.use("*", (req, res) => {
+  return res.status(400).json({ err: `${req.url} not found` });
+});
 
 app.get("/", (req, res) => {
   res.status(200).end("Hello from the server");

@@ -4,7 +4,7 @@ import { validationResult, matchedData } from "express-validator";
 const createCourseController = async (req, res) => {
   const result = validationResult(req);
 
-  if (!result.notEmpty())
+  if (!result.isEmpty())
     return res.status(401).json({ err: result.errors[0].msg });
 
   try {

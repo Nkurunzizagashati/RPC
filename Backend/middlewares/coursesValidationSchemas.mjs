@@ -73,7 +73,10 @@ const createCourseValidator = {
               'Additional content link is required for modules other than "course"'
             );
           }
-          if (typeof module.completed !== "boolean") {
+          if (
+            module.completed !== undefined &&
+            typeof module.completed !== "boolean"
+          ) {
             throw new Error(
               "Completed flag for each module should be a boolean"
             );

@@ -45,7 +45,7 @@ app.use("/courses", courseRouter);
 app.use("*", (req, res) => {
   return res
     .status(400)
-    .json({ err: `PATH YOU ARE TRYING TO REACH DOESN'T EXIST` });
+    .json({ err: `THE URL YOU ARE TRYING TO VISIT DOESN'T EXIST` });
 });
 
 app.get("/", (req, res) => {

@@ -17,4 +17,15 @@ const createCourseController = async (req, res) => {
   }
 };
 
-export { createCourseController };
+const getAllCoursesController = (req, res) => {};
+
+const updateCourseController = (req, res) => {};
+
+const deleteCourseController = (req, res) => {};
+
+export {
+  createCourseController,
+  getAllCoursesController,
+  updateCourseController,
+  deleteCourseController,
+};

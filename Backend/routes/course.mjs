@@ -5,9 +5,9 @@ import { createCourseController } from "../controllers/course.mjs";
 
 const router = express.Router();
 
-// router.get("/", getAllCoursesController);
+router.get("/", getAllCoursesController);
 router.post("/", checkSchema(createCourseValidator), createCourseController);
-// router.patch("/:id", updateCourseController);
-// router.delete("/:id", deleteCourseController);
+router.patch("/:id", updateCourseController);
+router.delete("/:id", deleteCourseController);
 
 export default router;

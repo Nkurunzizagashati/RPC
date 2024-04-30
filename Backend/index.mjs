@@ -43,7 +43,9 @@ app.use(
 app.use("/users", userRouter);
 app.use("/courses", courseRouter);
 app.use("*", (req, res) => {
-  return res.status(400).json({ err: `${req.url} not found` });
+  return res
+    .status(400)
+    .json({ err: `PATH YOU ARE TRYING TO REACH DOESN'T EXIST` });
 });
 
 app.get("/", (req, res) => {

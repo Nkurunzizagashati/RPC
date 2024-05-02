@@ -1,6 +1,9 @@
 import express from "express";
 import { checkSchema } from "express-validator";
-import { createCourseValidator } from "../middlewares/coursesValidationSchemas.mjs";
+import {
+  createCourseValidator,
+  updateCourseValidator,
+} from "../middlewares/coursesValidationSchemas.mjs";
 import {
   createCourseController,
   deleteCourseController,

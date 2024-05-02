@@ -182,4 +182,4 @@ const updateCourseValidator = {
   },
 };
 
-export { createCourseValidator };
+export { createCourseValidator, updateCourseValidator };

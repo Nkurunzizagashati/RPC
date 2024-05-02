@@ -24,6 +24,10 @@ router.patch(
 );
 router.delete("/:id", deleteCourseController);
 
-router.post("/:courseId/:moduleId", updateCourseModuleController);
+router.post(
+  "/:courseId/:moduleId",
+  checkSchema(updateCourseModuleValidator),
+  updateCourseModuleController
+);
 
 export default router;

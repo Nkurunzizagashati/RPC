@@ -94,6 +94,8 @@ const updateCourseController = async (req, res) => {
 
 const deleteCourseController = (req, res) => {};
 
+const updateCourseModuleController = async (req, res) => {};
+
 export {
   createCourseController,
   getAllCoursesController,

@@ -163,4 +163,8 @@ const updateCourseModuleValidator = {
     },
   },
 };
-export { createCourseValidator, updateCourseValidator };
+export {
+  createCourseValidator,
+  updateCourseValidator,
+  updateCourseModuleValidator,
+};

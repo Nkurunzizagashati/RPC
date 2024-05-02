@@ -92,9 +92,29 @@ const updateCourseController = async (req, res) => {
   }
 };
 
-const deleteCourseController = (req, res) => {};
+const deleteCourseController = async (req, res) => {};
 
-const updateCourseModuleController = async (req, res) => {};
+const updateCourseModuleController = async (req, res) => {
+  const courseId = req.params.courseId;
+  const moduleId = req.params.moduleId;
+
+  try {
+    const token = req.cookies.token;
+    if (!token) return res.status(401).json({ err: "You are not logged in" });
+    const loggedInUserId = jwt.decode(token, jwt_secret).id;
+    const loggedInUser = await User.findById(loggedInUserId);
+    if (!loggedInUser)
+      return res.status(401).json({ err: "You are not logged in" });
+    const result = validationResult(req);
+    if (!result.isEmpty())
+      return res.status(401).json({ err: result.errors[0].msg });
+    const data = matchedData(req);
+
+    const course = await Course.findById(courseId);
+  } catch (error) {
+    res.json({ err: error.message });
+  }
+};
 
 export {
   createCourseController,

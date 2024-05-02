@@ -24,7 +24,7 @@ router.patch(
 );
 router.delete("/:id", deleteCourseController);
 
-router.post(
+router.patch(
   "/:courseId/:moduleId",
   checkSchema(updateCourseModuleValidator),
   updateCourseModuleController

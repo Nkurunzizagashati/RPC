@@ -9,6 +9,7 @@ import {
   deleteCourseController,
   getAllCoursesController,
   updateCourseController,
+  updateCourseModuleController,
 } from "../controllers/course.mjs";
 
 const router = express.Router();
@@ -21,5 +22,7 @@ router.patch(
   updateCourseController
 );
 router.delete("/:id", deleteCourseController);
+
+router.post("/:courseId/:moduleId", updateCourseModuleController);
 
 export default router;

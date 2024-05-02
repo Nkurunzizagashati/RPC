@@ -78,7 +78,14 @@ const updateCourseController = async (req, res) => {
       return res.status(401).json({ err: result.errors[0].msg });
 
     const data = matchedData(req);
-    const updatedCourse = Course.findByIdAndUpdate(courseId, data);
+    const updatedCourse = Course.findByIdAndUpdate(courseId, data, {
+      new: true,
+    });
+    if (!updatedCourse)
+      return res.status(500).json({
+        err: "Something went wrong, can't update the course, try again please!",
+      });
+    res.json({ msg: "Course Updated successfully!", updatedCourse });
   } catch (error) {
     return res.json({ err: error.message });
   }

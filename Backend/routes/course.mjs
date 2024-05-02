@@ -3,6 +3,7 @@ import { checkSchema } from "express-validator";
 import {
   createCourseValidator,
   updateCourseValidator,
+  updateCourseModuleValidator,
 } from "../middlewares/coursesValidationSchemas.mjs";
 import {
   createCourseController,

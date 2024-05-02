@@ -15,7 +15,11 @@ const router = express.Router();
 
 router.get("/", getAllCoursesController);
 router.post("/", checkSchema(createCourseValidator), createCourseController);
-router.patch("/:id", updateCourseController);
+router.patch(
+  "/:id",
+  checkSchema(updateCourseValidator),
+  updateCourseController
+);
 router.delete("/:id", deleteCourseController);
 
 export default router;

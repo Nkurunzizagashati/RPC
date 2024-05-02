@@ -162,6 +162,10 @@ const updateUserController = async (req, res) => {
     const updatedUser = await User.findByIdAndUpdate(userId, data, {
       new: true,
     });
+    if (!updatedUser)
+      return res.status(500).json({
+        err: "Something went wrong, can't update the user, try again please!",
+      });
     res.json({ msg: "User Updated successfully!", updatedUser });
   } catch (error) {
     res.json({ err: error.message });

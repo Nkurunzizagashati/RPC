@@ -117,4 +117,50 @@ const updateCourseValidator = {
   },
 };
 
+const updateCourseModuleValidator = {
+  custom: {
+    options: (value) => {
+      if (!Array.isArray(value)) {
+        throw new Error("Course modules should be an array");
+      }
+      for (const module of value) {
+        if (module.title && typeof module.title !== "string") {
+          throw new Error("Title for each module should be a non-empty string");
+        }
+        if (module.introduction && typeof module.introduction !== "string") {
+          throw new Error(
+            "Introduction for each module should be a non-empty string"
+          );
+        }
+        if (module.body && typeof module.body !== "string") {
+          throw new Error("Body for each module should be a non-empty string");
+        }
+        if (
+          module.contentType &&
+          !["tutorial", "video", "course", "article"].includes(
+            module.contentType
+          )
+        ) {
+          throw new Error("Invalid content type for each module");
+        }
+        if (
+          module.contentType !== "course" &&
+          module.additionContentLink &&
+          typeof module.additionContentLink !== "string"
+        ) {
+          throw new Error(
+            'Additional content link is required for modules other than "course"'
+          );
+        }
+        if (
+          module.completed !== undefined &&
+          typeof module.completed !== "boolean"
+        ) {
+          throw new Error("Completed flag for each module should be a boolean");
+        }
+      }
+      return true;
+    },
+  },
+};
 export { createCourseValidator, updateCourseValidator };

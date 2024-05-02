@@ -105,12 +105,46 @@ const updateCourseModuleController = async (req, res) => {
     const loggedInUser = await User.findById(loggedInUserId);
     if (!loggedInUser)
       return res.status(401).json({ err: "You are not logged in" });
+    if (!loggedInUser.isAdmin)
+      return res.status(403).json({ err: "Only Admin can update the course" });
+
+    // CHECK VALIDATION RESULT AND RETRIVE DATA FROM THE VALIDATOR
     const result = validationResult(req);
     if (!result.isEmpty())
       return res.status(401).json({ err: result.errors[0].msg });
     const data = matchedData(req);
 
     const course = await Course.findById(courseId);
+    if (!course)
+      return res
+        .status(404)
+        .json({ err: "The Course You want to update Can not be Found" });
+
+    const moduleIndex = course.courseModules.findIndex(
+      (module) => module._id.toString() === moduleId
+    );
+
+    if (moduleIndex == -1)
+      return res
+        .status(404)
+        .json({ err: "The module you want to update can not be found" });
+    const fieldsToUpdateArray = data.keys;
+    fieldsToUpdateArray.length > 0 &&
+      fieldsToUpdateArray.forEach((field) => {
+        course.courseModules[moduleIndex][field] = data[field];
+      });
+
+    const savedCourse = await course.save();
+
+    if (!savedCourse)
+      return res
+        .status(500)
+        .json({ err: "Something went wrong, please try again" });
+
+    res.json({
+      msg: "Module updated Successfully",
+      updatedModule: savedCourse.courseModules[moduleIndex],
+    });
   } catch (error) {
     res.json({ err: error.message });
   }

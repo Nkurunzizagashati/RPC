@@ -101,4 +101,5 @@ export {
   getAllCoursesController,
   updateCourseController,
   deleteCourseController,
+  updateCourseModuleController,
 };

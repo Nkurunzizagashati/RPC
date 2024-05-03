@@ -108,6 +108,12 @@ const deleteCourseController = async (req, res) => {
       return res
         .status(403)
         .json({ err: "You don't have permission to delete a course" });
+
+    const deletedCourse = await Course.findByIdAndDelete(courseId);
+    if (!deletedCourse)
+      return res.status(500).json({ err: "SOMETHING WENT WRONG TRY AGAIN" });
+
+    res.json({ msg: `--- ${deletedCourse.title} --- deleted` });
   } catch (error) {
     return res.json({ err: error.message });
   }

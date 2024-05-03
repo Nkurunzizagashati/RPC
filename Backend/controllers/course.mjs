@@ -93,19 +93,24 @@ const updateCourseController = async (req, res) => {
 };
 
 const deleteCourseController = async (req, res) => {
-  const token = req.cookies.token;
-  const courseId = req.params.id;
-  if (!token) return res.status(403).json({ err: "You need to login" });
-  const loggedInUserId = jwt.decode(token, jwt_secret).id;
-  if (!loggedInUserId)
-    return res.status(403).json({ err: "You need to login" });
+  try {
+    const token = req.cookies.token;
+    const courseId = req.params.id;
+    if (!token) return res.status(403).json({ err: "You need to login" });
+    const loggedInUserId = jwt.decode(token, jwt_secret).id;
+    if (!loggedInUserId)
+      return res.status(403).json({ err: "You need to login" });
 
-  const loggedInUser = await User.findById(loggedInUserId);
-  if (!loggedInUser) return res.status(403).json({ err: "You need to login" });
-  if (!loggedInUser.isAdmin)
-    return res
-      .status(403)
-      .json({ err: "You don't have permission to delete a course" });
+    const loggedInUser = await User.findById(loggedInUserId);
+    if (!loggedInUser)
+      return res.status(403).json({ err: "You need to login" });
+    if (!loggedInUser.isAdmin)
+      return res
+        .status(403)
+        .json({ err: "You don't have permission to delete a course" });
+  } catch (error) {
+    return res.json({ err: error.message });
+  }
 };
 
 const updateCourseModuleController = async (req, res) => {

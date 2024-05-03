@@ -175,6 +175,8 @@ const updateCourseModuleController = async (req, res) => {
   }
 };
 
+const deleteCourseModulecontroller = async (req, res) => {};
+
 export {
   createCourseController,
   getAllCoursesController,

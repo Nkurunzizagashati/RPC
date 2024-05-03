@@ -189,6 +189,10 @@ const deleteCourseModulecontroller = async (req, res) => {
     const loggedInUser = await User.findById(loggedInUserId);
     if (!loggedInUser)
       return res.status(403).json({ err: "You need to loggin" });
+    if (!loggedInUser.isAdmin)
+      return res
+        .status(403)
+        .json({ err: "You don't have permission to delete a module" });
   } catch (error) {
     return res.json({ err: error.message });
   }

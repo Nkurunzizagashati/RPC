@@ -200,6 +200,8 @@ const deleteCourseModulecontroller = async (req, res) => {
     const moduleIndex = course.courseModules.findIndex(
       (module) => module._id.toString() === moduleId
     );
+
+    course.courseModules.splice(moduleIndex, 1);
   } catch (error) {
     return res.json({ err: error.message });
   }

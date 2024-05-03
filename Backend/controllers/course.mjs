@@ -175,7 +175,12 @@ const updateCourseModuleController = async (req, res) => {
   }
 };
 
-const deleteCourseModulecontroller = async (req, res) => {};
+const deleteCourseModulecontroller = async (req, res) => {
+  try {
+  } catch (error) {
+    return res.json({ err: error.message });
+  }
+};
 
 export {
   createCourseController,

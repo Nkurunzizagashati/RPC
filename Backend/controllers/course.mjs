@@ -183,4 +183,5 @@ export {
   updateCourseController,
   deleteCourseController,
   updateCourseModuleController,
+  deleteCourseModulecontroller,
 };

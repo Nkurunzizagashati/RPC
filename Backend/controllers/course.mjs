@@ -178,6 +178,7 @@ const updateCourseModuleController = async (req, res) => {
 const deleteCourseModulecontroller = async (req, res) => {
   try {
     const courseId = req.params.courseId;
+    const moduleId = req.params.moduleId;
   } catch (error) {
     return res.json({ err: error.message });
   }

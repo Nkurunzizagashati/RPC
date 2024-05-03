@@ -204,8 +204,11 @@ const deleteCourseModulecontroller = async (req, res) => {
     course.courseModules.splice(moduleIndex, 1);
 
     const newCourse = await course.save();
+    if (!newCourse)
+      return res.status(500).json({ err: "SOMETHING WENT WRONG TRY AGAIN" });
+    res.json({ msg: `MODULE DELETED` });
   } catch (error) {
-    return res.json({ err: error.message });
+    return res.status(500).json({ err: error.message });
   }
 };
 

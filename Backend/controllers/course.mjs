@@ -96,6 +96,15 @@ const deleteCourseController = async (req, res) => {
   const token = req.cookies.token;
   if (!token) return res.status(403).json({ err: "You need to login" });
   const loggedInUserId = jwt.decode(token, jwt_secret).id;
+  if (!loggedInUserId)
+    return res.status(403).json({ err: "You need to login" });
+
+  const loggedInUser = await User.findById(loggedInUserId);
+  if (!loggedInUser) return res.status(403).json({ err: "You need to login" });
+  if (!loggedInUser.isAdmin)
+    return res
+      .status(403)
+      .json({ err: "You don't have permission to delete a course" });
 };
 
 const updateCourseModuleController = async (req, res) => {

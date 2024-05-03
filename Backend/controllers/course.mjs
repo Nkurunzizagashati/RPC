@@ -183,6 +183,12 @@ const deleteCourseModulecontroller = async (req, res) => {
     if (!token) return res.status(403).json({ err: "You need to loggin" });
 
     const loggedInUserId = jwt.decode(token, jwt_secret).id;
+    if (!loggedInUserId)
+      return res.status(403).json({ err: "You need to loggin" });
+
+    const loggedInUser = await User.findById(loggedInUserId);
+    if (!loggedInUser)
+      return res.status(403).json({ err: "You need to loggin" });
   } catch (error) {
     return res.json({ err: error.message });
   }

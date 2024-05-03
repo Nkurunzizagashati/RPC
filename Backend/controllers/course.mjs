@@ -94,6 +94,7 @@ const updateCourseController = async (req, res) => {
 
 const deleteCourseController = async (req, res) => {
   const token = req.cookies.token;
+  const courseId = req.params.id;
   if (!token) return res.status(403).json({ err: "You need to login" });
   const loggedInUserId = jwt.decode(token, jwt_secret).id;
   if (!loggedInUserId)

@@ -181,6 +181,8 @@ const deleteCourseModulecontroller = async (req, res) => {
     const moduleId = req.params.moduleId;
     const token = req.cookies.token;
     if (!token) return res.status(403).json({ err: "You need to loggin" });
+
+    const loggedInUserId = jwt.decode(token, jwt_secret).id;
   } catch (error) {
     return res.json({ err: error.message });
   }

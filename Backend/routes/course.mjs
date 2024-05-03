@@ -11,6 +11,7 @@ import {
   getAllCoursesController,
   updateCourseController,
   updateCourseModuleController,
+  deleteCourseModulecontroller,
 } from "../controllers/course.mjs";
 
 const router = express.Router();

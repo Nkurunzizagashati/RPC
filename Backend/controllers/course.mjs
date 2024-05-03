@@ -92,7 +92,9 @@ const updateCourseController = async (req, res) => {
   }
 };
 
-const deleteCourseController = async (req, res) => {};
+const deleteCourseController = async (req, res) => {
+  const token = req.cookies.token;
+};
 
 const updateCourseModuleController = async (req, res) => {
   const courseId = req.params.courseId;

@@ -49,7 +49,7 @@ const getAllCoursesController = async (req, res) => {
     if (!courses) res.json({ msg: "No course found" });
     res.json({ courses });
   } catch (error) {
-    res.json({ err: error.message });
+    res.status(500).json({ err: error.message });
   }
 };
 
@@ -88,7 +88,7 @@ const updateCourseController = async (req, res) => {
     }
     return res.json({ msg: "Course Updated successfully!", updatedCourse });
   } catch (error) {
-    return res.json({ err: error.message });
+    return res.status(500).json({ err: error.message });
   }
 };
 
@@ -115,7 +115,7 @@ const deleteCourseController = async (req, res) => {
 
     res.json({ msg: `--- ${deletedCourse.title} --- deleted` });
   } catch (error) {
-    return res.json({ err: error.message });
+    return res.status(500).json({ err: error.message });
   }
 };
 
@@ -171,7 +171,7 @@ const updateCourseModuleController = async (req, res) => {
       updatedModule: savedCourse.courseModules[moduleIndex],
     });
   } catch (error) {
-    res.json({ err: error.message });
+    res.status(500).json({ err: error.message });
   }
 };
 

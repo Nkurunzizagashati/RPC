@@ -31,4 +31,6 @@ router.patch(
   updateCourseModuleController
 );
 
+router.delete("/:courseId/:moduleId", deleteCourseModulecontroller);
+
 export default router;

@@ -180,6 +180,7 @@ const deleteCourseModulecontroller = async (req, res) => {
     const courseId = req.params.courseId;
     const moduleId = req.params.moduleId;
     const token = req.cookies.token;
+    if (!token) return res.status(403).json({ err: "You need to loggin" });
   } catch (error) {
     return res.json({ err: error.message });
   }

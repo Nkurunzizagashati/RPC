@@ -179,6 +179,7 @@ const deleteCourseModulecontroller = async (req, res) => {
   try {
     const courseId = req.params.courseId;
     const moduleId = req.params.moduleId;
+    const token = req.cookies.token;
   } catch (error) {
     return res.json({ err: error.message });
   }

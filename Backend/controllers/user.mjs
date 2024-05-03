@@ -72,8 +72,8 @@ const loginUserController = async (req, res) => {
   try {
     const data = matchedData(req);
     const user = await User.findOne({ email: data.email });
-    if (user && bcrypt.compare(user.password, data.password)) {
-      req.session.user = user.email;
+    const passwordMatches = await bcrypt.compare(user.password, data.password);
+    if (user && passwordMatches) {
       // CREATING THE TOKEN and SENDING IT IN AN HTTPONLY COOKIE
       const token = tokenGenerator(user);
       res.cookie("token", token, {

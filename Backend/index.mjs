@@ -44,7 +44,7 @@ app.use("/users", userRouter);
 app.use("/courses", courseRouter);
 app.use("*", (req, res) => {
   return res
-    .status(400)
+    .status(404)
     .json({ err: `THE URL YOU ARE TRYING TO VISIT DOESN'T EXIST` });
 });
 

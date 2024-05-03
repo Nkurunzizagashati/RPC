@@ -193,6 +193,13 @@ const deleteCourseModulecontroller = async (req, res) => {
       return res
         .status(403)
         .json({ err: "You don't have permission to delete a module" });
+
+    const course = await Course.findById(courseId);
+    if (!course) return res.status(404).json({ err: "Course not found" });
+
+    const moduleIndex = course.courseModules.findIndex(
+      (module) => module._id.toString() === moduleId
+    );
   } catch (error) {
     return res.json({ err: error.message });
   }

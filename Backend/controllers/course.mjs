@@ -202,6 +202,8 @@ const deleteCourseModulecontroller = async (req, res) => {
     );
 
     course.courseModules.splice(moduleIndex, 1);
+
+    const newCourse = await course.save();
   } catch (error) {
     return res.json({ err: error.message });
   }

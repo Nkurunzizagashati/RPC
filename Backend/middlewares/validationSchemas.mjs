@@ -40,7 +40,7 @@ const createUserValidator = {
   },
   isAdmin: {
     optional: { options: { nullable: true } },
-    isBool: {
+    isBoolean: {
       errorMessage: "Is admin should have a boolean value",
     },
   },
